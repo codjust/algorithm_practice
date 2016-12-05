@@ -345,6 +345,20 @@ void BreadthFurstTraveal(BiTree root)
     }
 }
 
+//递归求树的深度
+int depthOfBiTree(const BiTree &T)
+{
+    int ldepth;
+    int rdepth;
+
+    if(T==NULL)//空树
+        return 0;
+    ldepth = depthOfBiTree(T->lchild);
+    rdepth = depthOfBiTree(T->rchild);
+
+    return (ldepth>rdepth)?(ldepth+1):(rdepth+1);
+}
+
 int main(){
     BiTree T;
     T = CreateBiTree();//建立

@@ -15,14 +15,33 @@ BiTree CreateBiTree(){
     char ch;
     BiTree T;
     scanf("%c",&ch);
-    if(ch=='#')T=NULL;
+    if(ch == '#'){
+    	T=NULL;
+    	//return T;
+    }
     else{
         T = (BiTree)malloc(sizeof(BiTNode));
         T->data = ch;
         T->lchild = CreateBiTree();
         T->rchild = CreateBiTree();
     }
-    return T;//返回根节点
+    //return T;//返回根节点
+}
+void createBiTree(BiTree &T)
+{
+    char data;
+    data = getchar();
+    if(data == '#')
+    {
+        T = NULL;
+    }
+    else
+    {
+        T = new BiTNode;
+        T->data = data;
+        createBiTree(T->lchild);
+        createBiTree(T->rchild);
+    }
 }
 // 先序遍历
 void PreOrderQuery(BiTree T){
@@ -86,9 +105,41 @@ void BreadthFurstTraveal(BiTree root)
 	}
 }
 
+
+//递归求树的深度
+int depthOfBiTree(const BiTree &T)
+{
+    int ldepth;
+    int rdepth;
+
+    if(T==NULL)//空树
+        return 0;
+    ldepth = depthOfBiTree(T->lchild);
+    rdepth = depthOfBiTree(T->rchild);
+
+    return (ldepth>rdepth)?(ldepth+1):(rdepth+1);
+}
+
+
+//递归求深度
+int depthtree(const BiTree & T)
+{
+	int left  = 0;
+	int right = 0;
+	if(T == NULL) return 0;
+
+	left  = depthtree(T->lchild);
+	right = depthtree(t->rchild);
+
+	if(left > right)
+		return ++left;
+	else
+		return ++right;
+}
+
 int main(){
     BiTree T;
-    T = CreateBiTree();//建立
+    createBiTree(T);//建立
     PreOrderQuery(T);//输出
  	return 0;
 }
