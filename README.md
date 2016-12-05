@@ -6,6 +6,7 @@ Content
 * [选择排序](#选择排序)
 * [二分法查找](#二分法查找)
 * [简单树操作](#简单树操作)
+* [简单socket例子](#简单socket例子)
 
 
 
@@ -505,6 +506,125 @@ int main()
 
     return 0;
 }
+```
+
+###简单socket例子
+
+```c
+//server 
+/*************************************************************************
+    > File Name: server.cpp
+    > Author: 
+    > Mail: 
+    > Created Time: 2016年12月05日 星期一 17时30分35秒
+ ************************************************************************/
+
+#include<iostream>
+#include<sys/socket.h>
+#include<sys/types.h>
+#include<arpa/inet.h>
+#include<netinet/in.h>
+#include<stdio.h>
+#include <unistd.h>
+using namespace std;
+
+int main()
+{
+    int server_sockfd;//服务器套接字
+    int client_sockfd;//接受的客户端套接字
+
+    sockaddr_in my_addr;//服务端地址结构体
+    sockaddr_in client_addr;//客户端地址结构体
+
+
+    my_addr.sin_family = AF_INET;//设置IP通信
+    my_addr.sin_addr.s_addr=INADDR_ANY;//允许任意链接到本地地址
+    my_addr.sin_port = htons(9999);
+
+    if((server_sockfd = socket(AF_INET,SOCK_STREAM,0))<0)
+    {
+        cout<<"socket fd create failed!"<<endl;
+        return 0;
+    }
+
+    int size = sizeof(my_addr);
+    if(bind(server_sockfd,(struct sockaddr*)(&my_addr),size)<0)
+    {
+        cout<<"bind failed!";
+        return 0;
+    }
+
+    listen(server_sockfd,5);//监听，队列长度为5
+    cout<<"server listening...";
+    socklen_t sin_len = sizeof(struct sockaddr);
+    client_sockfd = accept(server_sockfd,(struct sockaddr*)&client_addr,&sin_len);
+    if(client_sockfd<0)
+    {
+        cout<<"accept failed.";
+        return 0;
+    }
+
+    char buf[]="hello";
+    size_t len = sizeof(buf);
+    send(client_sockfd,buf,sizeof(buf),0);
+    
+    close(client_sockfd);
+    close(server_sockfd);
+    return 0;
+}
+
+```
+```c
+//client
+/*************************************************************************
+    > File Name: client.cpp
+    > Author: 
+    > Mail: 
+    > Created Time: 2016年12月05日 星期一 18时32分52秒
+ ************************************************************************/
+
+#include<iostream>
+using namespace std;
+#include <stdio.h>  
+#include <sys/types.h>  
+#include <sys/socket.h>  
+#include <netinet/in.h>  
+#include <arpa/inet.h>  
+#include <unistd.h>
+
+int main()
+{
+    int sockfd;
+    sockfd = socket(AF_INET, SOCK_STREAM,0);
+    if(sockfd <0)
+    {
+        cout<<"socket created failed!";
+        return 0;
+    }
+
+    sockaddr_in client_addr;
+    client_addr.sin_family = AF_INET;
+    client_addr.sin_port  = htons(9999);
+    client_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    int isConn = connect(sockfd,(struct sockaddr*)&client_addr,sizeof(client_addr));
+    if(isConn<0)
+    {
+        cout<<"connect server failed.";
+        return 0;
+    }
+
+    cout<<"connect to server:"<<endl;
+    
+    char buf[5];
+    recv(sockfd,buf,5,0);
+    printf("client recv:%s\n",buf);
+
+    close(sockfd);
+
+    return 0;
+}
+
 ```
 
 
