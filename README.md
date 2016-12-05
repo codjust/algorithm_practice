@@ -359,6 +359,33 @@ int depthOfBiTree(const BiTree &T)
     return (ldepth>rdepth)?(ldepth+1):(rdepth+1);
 }
 
+//递归求二叉树的叶子结点个数  
+int leafCountOfBiTree(const BiTree &T)  
+{     
+    if(T==NULL)  
+        return 0;  
+    if(T->lchild==NULL && T->rchild==NULL)  
+        return 1;  
+    return leafCountOfBiTree(T->lchild) + leafCountOfBiTree(T->rchild);  
+}  
+
+void exchangeChild(BiTree &T)  
+{  
+    if(T)  
+    {  
+        BiTree temp = NULL;  
+          
+        if(T->lchild ||T->rchild)  
+        {  
+            temp = T->lchild;  
+            T->lchild = T->rchild;  
+            T->rchild = temp;  
+            exchangeChild(T->lchild);  
+            exchangeChild(T->rchild);  
+        }  
+    }  
+}  
+
 int main(){
     BiTree T;
     T = CreateBiTree();//建立
