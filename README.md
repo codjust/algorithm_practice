@@ -369,6 +369,7 @@ int leafCountOfBiTree(const BiTree &T)
     return leafCountOfBiTree(T->lchild) + leafCountOfBiTree(T->rchild);  
 }  
 
+//交换二叉树的左右子女 
 void exchangeChild(BiTree &T)  
 {  
     if(T)  
