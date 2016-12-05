@@ -28,8 +28,6 @@ int SelectMidValue(int *A, int low, int high)
         swap(&low, &high);
     else if(A[mid]>A[low])
         swap(&mid, &low);
-
-  //  cout<<A[mid]<<" "<<A[low]<<" "<<A[high]<<endl;
     return A[low];
 }
 
@@ -40,9 +38,7 @@ void quicksort(int *A, int s,int t)
     int L = s;
     int R = t;
     int X = SelectMidValue(A, L, R);
-  //  cout<<"X->:"<<X<<endl;
     swap(A[L],X);//返回的值和最左边的数交换
-  //  cout<<"A[L]->:"<<A[L]<<endl;
     while(L<R)
     {
         while(L<R&&A[R]>X)
@@ -68,13 +64,7 @@ void quicksort(int *A, int s,int t)
 
 int main()
 {
-    // int x=2;
-    // int y=3;
-    // swap(&x, &y);
-    // cout<<x<<" "<<y<<endl;
     int a[] = {2,4,1,7,3,0,5};
-
-   // cout<<"address:"<<a[0]<<" "<<&a[0]<<endl;
     quicksort(a,0,6);
     for(int i=0;i<7;i++)
         cout<<a[i]<<" ";
