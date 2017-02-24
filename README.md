@@ -105,7 +105,7 @@ void bubble_sort(int *A,int n){
     for(int i = 0;i < n; i++)
     {
         isChange = false;
-        for(int j = i;j < n; j++)
+        for(int j = i + 1;j < n; j++)
         {
             if(A[i]>A[j])
             {
